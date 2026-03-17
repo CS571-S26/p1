@@ -1,16 +1,9 @@
-# React + Vite
+When travellers want to find restaurants during their travelling journey, they often need to search on the browsers for recommendations. So, we are making a web app that streamlines this process.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+We are creating a website that allows the user to enter a starting point and a destination that are within driving distance of each other (if the locations are not within driving distance, we will give them an error message and they will have to choose new locations). They will also enter how many stops they would like to make along the way. We will then generate a road trip for the user that gives them the driving route, along with the top rated restaurant at each stop along the way within a radius, d, which the user can also enter. 
 
-Currently, two official plugins are available:
+We will generate the driving route using the Google Maps API (or similar products), as well as get the restaurant reviews from there (or another similar product). This will allow us to generate the path and find all of the restaurants the user will stop at. They can also filter the kind of restaurants they want based on criteria such as cuisine, price, and operating hours. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Then, once the user gets the route plan, they can click on any of the restaurants on the path to see more information about it, such as the hours, menu, reviews, etc. They can save the paths or restaurants as needed.
 
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+By Chhiv Guech Houth, Olivia Nayak
