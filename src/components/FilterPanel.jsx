@@ -76,6 +76,11 @@ export default function FilterPanel({ filters, onChange, readOnly = false }) {
         <Form.Group>
           <Form.Label className="fw-semibold small text-uppercase text-muted mb-1">
             Price Range
+            {filters.priceRange.length === 0 && (
+              <span className="text-muted fw-normal ms-1" style={{ textTransform: 'none' }}>
+                — Any
+              </span>
+            )}
           </Form.Label>
           <div className="d-flex gap-2 flex-wrap">
             {PRICE_LEVELS.map(({ value, label }) => {
@@ -94,9 +99,6 @@ export default function FilterPanel({ filters, onChange, readOnly = false }) {
               )
             })}
           </div>
-          {filters.priceRange.length === 0 && (
-            <small className="text-muted">Any price</small>
-          )}
         </Form.Group>
 
         <Form.Check
