@@ -4,8 +4,9 @@ import { Autocomplete } from '@react-google-maps/api'
 import FilterPanel, { DEFAULT_FILTERS } from './FilterPanel'
 
 export default function SearchForm({ onSearch, initialValues }) {
-  const [origin, setOrigin] = useState(initialValues?.origin || '')
-  const [destination, setDestination] = useState(initialValues?.destination || '')
+  // Location inputs are uncontrolled — Google Maps Autocomplete writes directly
+  // into the DOM input, so keeping them in React state would cause React to
+  // overwrite that value on every re-render (e.g. when filters change).
   const [numStops, setNumStops] = useState(initialValues?.numStops ?? 3)
   const [radius, setRadius] = useState(initialValues?.radius ?? 10)
   const [filters, setFilters] = useState(initialValues?.filters ?? DEFAULT_FILTERS)
@@ -27,8 +28,8 @@ export default function SearchForm({ onSearch, initialValues }) {
 
     setError('')
     onSearch({
-      origin: originPlace.formatted_address || origin,
-      destination: destPlace.formatted_address || destination,
+      origin: originPlace.formatted_address || originPlace.name,
+      destination: destPlace.formatted_address || destPlace.name,
       numStops: Number(numStops),
       radius: Number(radius),
       filters,
@@ -47,8 +48,7 @@ export default function SearchForm({ onSearch, initialValues }) {
               <Form.Control
                 type="text"
                 placeholder="e.g. Chicago, IL"
-                value={origin}
-                onChange={e => setOrigin(e.target.value)}
+                defaultValue={initialValues?.origin || ''}
                 required
               />
             </Autocomplete>
@@ -61,8 +61,7 @@ export default function SearchForm({ onSearch, initialValues }) {
               <Form.Control
                 type="text"
                 placeholder="e.g. Nashville, TN"
-                value={destination}
-                onChange={e => setDestination(e.target.value)}
+                defaultValue={initialValues?.destination || ''}
                 required
               />
             </Autocomplete>
