@@ -27,7 +27,7 @@ export default function NavBar() {
               to="/saved"
               className={({ isActive }) => isActive ? 'active fw-semibold' : ''}
             >
-              Saved Trips
+              My Trips
               {savedTrips.length > 0 && (
                 <Badge bg="warning" text="dark" className="ms-1">
                   {savedTrips.length}

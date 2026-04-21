@@ -107,7 +107,7 @@ export default function SearchForm({ onSearch, initialValues }) {
       <FilterPanel filters={filters} onChange={setFilters} />
 
       <Button type="submit" variant="primary" size="lg" className="w-100 mt-2">
-        Find Restaurants Along Route
+        Find Restaurants
       </Button>
     </Form>
   )

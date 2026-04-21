@@ -11,7 +11,7 @@ export default function SavedTripsPage() {
   return (
     <Container className="py-4">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold mb-0">Saved Trips</h2>
+        <h2 className="fw-bold mb-0">My Trips</h2>
         <Button variant="primary" onClick={() => navigate('/')}>
           Plan a New Trip
         </Button>
@@ -19,8 +19,8 @@ export default function SavedTripsPage() {
 
       {savedTrips.length === 0 ? (
         <Alert variant="info">
-          <Alert.Heading>No saved trips yet</Alert.Heading>
-          <p>Plan a route and hit <strong>Save Trip</strong> or save individual restaurants using
+          <Alert.Heading>No trips have been saved yet</Alert.Heading>
+          <p>Plan a route and hit <strong>My Trip</strong> or save individual restaurants using
           the <strong>Save</strong> button on any stop card.</p>
           <Button variant="info" onClick={() => navigate('/')}>Get started</Button>
         </Alert>
