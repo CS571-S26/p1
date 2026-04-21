@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Container, Card, Tab, Tabs, Form, Button, Alert } from 'react-bootstrap'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -20,11 +20,10 @@ export default function LoginPage() {
   const [signupConfirm, setSignupConfirm] = useState('')
   const [signupError, setSignupError] = useState('')
 
-  // Already logged in — send them away
-  if (currentUser) {
-    navigate(from, { replace: true })
-    return null
-  }
+  // Navigate away once currentUser is set (handles both already-logged-in and post-auth cases)
+  useEffect(() => {
+    if (currentUser) navigate(from, { replace: true })
+  }, [currentUser, from, navigate])
 
   function resetForms() {
     setLoginUsername(''); setLoginPassword(''); setLoginError('')
@@ -36,7 +35,6 @@ export default function LoginPage() {
     setLoginError('')
     try {
       login(loginUsername.trim(), loginPassword)
-      navigate(from, { replace: true })
     } catch (err) {
       setLoginError(err.message)
     }
@@ -55,7 +53,6 @@ export default function LoginPage() {
     }
     try {
       signup(signupUsername.trim(), signupPassword)
-      navigate(from, { replace: true })
     } catch (err) {
       setSignupError(err.message)
     }
