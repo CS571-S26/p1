@@ -40,8 +40,12 @@ export function TripProvider({ children }) {
     setSavedTrips(prev => prev.filter(t => t.id !== id))
   }
 
+  function isRestaurantSaved(placeId) {
+    return savedTrips.some(trip => trip.stops.some(s => s.placeId === placeId))
+  }
+
   return (
-    <TripContext.Provider value={{ savedTrips, saveTrip, removeTrip }}>
+    <TripContext.Provider value={{ savedTrips, saveTrip, removeTrip, isRestaurantSaved }}>
       {children}
     </TripContext.Provider>
   )

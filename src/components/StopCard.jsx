@@ -1,19 +1,10 @@
 import { Card, Badge, Button, Stack } from 'react-bootstrap'
+import StarRating from './StarRating'
+import SaveButton from './SaveButton'
 
 const PRICE_LABELS = { 1: '$', 2: '$$', 3: '$$$', 4: '$$$$' }
 
-function StarRating({ rating }) {
-  if (!rating) return <span className="text-muted small">No rating</span>
-  const full = Math.round(rating)
-  return (
-    <span>
-      <span className="text-warning">{'★'.repeat(full)}{'☆'.repeat(5 - full)}</span>
-      <span className="text-muted ms-1 small">{rating.toFixed(1)}</span>
-    </span>
-  )
-}
-
-export default function StopCard({ stop, index, onDetails, onSave }) {
+export default function StopCard({ stop, index, origin, destination, onDetails }) {
   const { restaurant } = stop
 
   if (!restaurant) {
@@ -74,9 +65,7 @@ export default function StopCard({ stop, index, onDetails, onSave }) {
           <Button size="sm" variant="outline-primary" onClick={() => onDetails(restaurant)}>
             More Info
           </Button>
-          <Button size="sm" variant="outline-success" onClick={() => onSave(restaurant)}>
-            Save
-          </Button>
+          <SaveButton restaurant={restaurant} origin={origin} destination={destination} />
         </Stack>
       </Card.Body>
     </Card>

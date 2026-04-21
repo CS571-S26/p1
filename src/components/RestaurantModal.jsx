@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { Modal, Badge, Spinner, Row, Col, ListGroup } from 'react-bootstrap'
+import StarRating from './StarRating'
 
 const PRICE_LABELS = { 1: '$', 2: '$$', 3: '$$$', 4: '$$$$' }
 
@@ -8,17 +9,6 @@ const PRICE_LABELS = { 1: '$', 2: '$$', 3: '$$$', 4: '$$$$' }
 // So: weekday_text[0] = Monday = JS day 1 → weekday_text[(jsDay + 6) % 7]
 function todayIndex() {
   return (new Date().getDay() + 6) % 7
-}
-
-function StarRating({ rating }) {
-  if (!rating) return <span className="text-muted">No rating</span>
-  const full = Math.round(rating)
-  return (
-    <span>
-      <span className="text-warning fs-5">{'★'.repeat(full)}{'☆'.repeat(5 - full)}</span>
-      <span className="text-muted ms-1">{rating.toFixed(1)}</span>
-    </span>
-  )
 }
 
 export default function RestaurantModal({ restaurant, show, onHide }) {
@@ -38,7 +28,7 @@ export default function RestaurantModal({ restaurant, show, onHide }) {
         fields: [
           'name', 'rating', 'user_ratings_total', 'price_level',
           'formatted_address', 'formatted_phone_number', 'website',
-          'opening_hours', 'photos', 'reviews', 'types', 'url',
+          'opening_hours', 'utc_offset_minutes', 'photos', 'reviews', 'types', 'url',
         ],
       },
       (result, status) => {
@@ -90,7 +80,7 @@ export default function RestaurantModal({ restaurant, show, onHide }) {
               {/* Left column: core info */}
               <Col md={6}>
                 <div className="mb-2">
-                  <StarRating rating={details.rating} />
+                  <StarRating rating={details.rating} large />
                   {details.user_ratings_total && (
                     <span className="text-muted ms-1 small">
                       {details.user_ratings_total.toLocaleString()} reviews
@@ -173,9 +163,7 @@ export default function RestaurantModal({ restaurant, show, onHide }) {
                   <div key={i} className="border rounded p-3 mb-2 bg-light">
                     <div className="d-flex justify-content-between align-items-center mb-1">
                       <strong className="small">{review.author_name}</strong>
-                      <span className="text-warning small">
-                        {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-                      </span>
+                      <StarRating rating={review.rating} />
                     </div>
                     <small className="text-muted d-block mb-1">{review.relative_time_description}</small>
                     <p className="mb-0 small">{review.text}</p>

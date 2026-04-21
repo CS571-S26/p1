@@ -8,13 +8,18 @@ const MAP_OPTIONS = {
   fullscreenControl: true,
 }
 
-export default function RouteMap({ directions, stops, onMarkerClick, onMapLoad }) {
+export default function RouteMap({ directions, stops, onMarkerClick, onMapLoad, mapRef }) {
+  function handleLoad(map) {
+    if (mapRef) mapRef.current = map
+    if (onMapLoad) onMapLoad(map)
+  }
+
   return (
     <GoogleMap
       mapContainerStyle={MAP_CONTAINER_STYLE}
       zoom={5}
       center={DEFAULT_CENTER}
-      onLoad={onMapLoad}
+      onLoad={handleLoad}
       options={MAP_OPTIONS}
     >
       {directions && (

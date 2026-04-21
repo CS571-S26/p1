@@ -8,6 +8,9 @@ import RouteMap from '../components/RouteMap'
 import StopCard from '../components/StopCard'
 import RestaurantModal from '../components/RestaurantModal'
 import FilterPanel, { DEFAULT_FILTERS } from '../components/FilterPanel'
+import TripSummaryBar from '../components/TripSummaryBar'
+import RouteStopsSidebar from '../components/RouteStopsSidebar'
+import EmptyState from '../components/EmptyState'
 import { useTrips } from '../context/TripContext'
 
 // Returns `count` evenly-spaced points from the path array (excluding endpoints).
@@ -47,6 +50,7 @@ export default function ResultsPage() {
 
   // PlacesService requires an HTML element or map; we use a hidden div.
   const attrRef = useRef(null)
+  const mapRef = useRef(null)
 
   const onMapLoad = useCallback(() => {}, [])
 
@@ -144,6 +148,9 @@ export default function ResultsPage() {
     saveTrip({
       origin: searchParams.origin,
       destination: searchParams.destination,
+      numStops: searchParams.numStops,
+      radius: searchParams.radius,
+      filters: searchParams.filters,
       stops: stops.map(s => ({
         name: s.restaurant?.name ?? null,
         address: s.restaurant?.vicinity ?? null,
@@ -154,25 +161,16 @@ export default function ResultsPage() {
     setToast('Trip saved!')
   }
 
-  function handleSaveRestaurant(restaurant) {
-    saveTrip({
-      origin: searchParams.origin,
-      destination: searchParams.destination,
-      stops: [
-        {
-          name: restaurant.name,
-          address: restaurant.vicinity,
-          rating: restaurant.rating,
-          placeId: restaurant.place_id,
-        },
-      ],
-    })
-    setToast(`"${restaurant.name}" saved!`)
-  }
-
   function handleDetails(restaurant) {
     setSelectedRestaurant(restaurant)
     setShowModal(true)
+  }
+
+  function handlePanToStop(latLng) {
+    if (mapRef.current) {
+      mapRef.current.panTo(latLng)
+      mapRef.current.setZoom(15)
+    }
   }
 
   if (!searchParams) return null
@@ -198,16 +196,9 @@ export default function ResultsPage() {
               {numStops} stop{numStops !== 1 ? 's' : ''} &middot; {radius} mi radius
             </small>
           </div>
-          <div className="d-flex gap-2">
-            <Button variant="outline-secondary" size="sm" onClick={() => navigate('/')}>
-              New Search
-            </Button>
-            {stops.length > 0 && (
-              <Button variant="success" size="sm" onClick={handleSaveTrip}>
-                Save Trip
-              </Button>
-            )}
-          </div>
+          <Button variant="outline-secondary" size="sm" onClick={() => navigate('/')}>
+            New Search
+          </Button>
         </div>
 
         {error && (
@@ -221,7 +212,7 @@ export default function ResultsPage() {
           </Alert>
         )}
 
-        {/* Map + filters side by side */}
+        {/* Map + sidebar */}
         <Row className="mb-4">
           <Col lg={8} className="mb-3 mb-lg-0">
             <RouteMap
@@ -229,13 +220,12 @@ export default function ResultsPage() {
               stops={stops}
               onMarkerClick={handleDetails}
               onMapLoad={onMapLoad}
+              mapRef={mapRef}
             />
           </Col>
           <Col lg={4}>
-            <FilterPanel
-              filters={filters}
-              onChange={setFilters}
-            />
+            <RouteStopsSidebar stops={stops} onStopClick={handlePanToStop} />
+            <FilterPanel filters={filters} onChange={setFilters} />
             <Button
               variant="primary"
               className="w-100"
@@ -270,8 +260,18 @@ export default function ResultsPage() {
           </div>
         )}
 
+        {/* No results */}
+        {!loading && !searching && !error && stops.length > 0 &&
+          stops.every(s => !s.restaurant) && (
+          <EmptyState
+            icon="🍽️"
+            heading="No restaurants found"
+            message="Try adjusting your filters or increasing the search radius."
+          />
+        )}
+
         {/* Stop cards */}
-        {!loading && !searching && !error && stops.length > 0 && (
+        {!loading && !searching && !error && stops.some(s => s.restaurant) && (
           <>
             <h5 className="mb-3 fw-semibold">
               Restaurant Stops ({stops.filter(s => s.restaurant).length}/{stops.length} found)
@@ -282,13 +282,25 @@ export default function ResultsPage() {
                   <StopCard
                     stop={stop}
                     index={i}
+                    origin={searchParams.origin}
+                    destination={searchParams.destination}
                     onDetails={handleDetails}
-                    onSave={handleSaveRestaurant}
                   />
                 </Col>
               ))}
             </Row>
           </>
+        )}
+
+        {/* Summary bar */}
+        {!loading && !error && (
+          <TripSummaryBar
+            origin={searchParams.origin}
+            destination={searchParams.destination}
+            directions={directions}
+            stops={stops}
+            onSave={handleSaveTrip}
+          />
         )}
       </Container>
 
