@@ -1,9 +1,7 @@
-import { useState } from 'react'
 import { Container, Row, Col, Card, Button, Badge, Alert } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useTrips } from '../context/TripContext'
 import { useAuth } from '../context/AuthContext'
-import AuthModal from '../components/AuthModal'
 
 const PRICE_LABELS = { 1: '$', 2: '$$', 3: '$$$', 4: '$$$$' }
 
@@ -11,20 +9,16 @@ export default function SavedTripsPage() {
   const { savedTrips, removeTrip } = useTrips()
   const { currentUser } = useAuth()
   const navigate = useNavigate()
-  const [showAuth, setShowAuth] = useState(false)
-
 
   return (
     <Container className="py-4">
-      <AuthModal show={showAuth} onHide={() => setShowAuth(false)} />
-
       {!currentUser && (
         <Alert variant="warning" className="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
           <span>
             You're browsing as a guest — your saved trips will be lost when you leave this page.{' '}
             <strong>Log in to keep them.</strong>
           </span>
-          <Button variant="warning" size="sm" onClick={() => setShowAuth(true)}>
+          <Button variant="warning" size="sm" onClick={() => navigate('/login', { state: { from: '/saved' } })}>
             Log In / Sign Up
           </Button>
         </Alert>

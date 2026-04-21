@@ -5,6 +5,7 @@ import NavBar from './components/NavBar'
 import HomePage from './pages/HomePage.jsx'
 import ResultsPage from './pages/ResultsPage'
 import SavedTripsPage from './pages/SavedTripsPage'
+import LoginPage from './pages/LoginPage'
 import { TripProvider } from './context/TripContext'
 import { AuthProvider } from './context/AuthContext'
 
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/results" element={<ResultsPage />} />
           <Route path="/saved" element={<SavedTripsPage />} />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </TripProvider>
     </AuthProvider>
