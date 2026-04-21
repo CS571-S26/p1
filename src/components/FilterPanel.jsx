@@ -110,11 +110,6 @@ export default function FilterPanel({ filters, onChange, readOnly = false }) {
           disabled={readOnly}
         />
 
-        {readOnly && (
-          <small className="text-muted fst-italic">
-            Filters are set at search time. Start a new search to change them.
-          </small>
-        )}
       </Card.Body>
     </Card>
   )
