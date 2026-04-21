@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage.jsx'
 import ResultsPage from './pages/ResultsPage'
 import SavedTripsPage from './pages/SavedTripsPage'
 import { TripProvider } from './context/TripContext'
+import { AuthProvider } from './context/AuthContext'
 
 // Declared outside component to avoid re-creating the array on every render,
 // which would cause useJsApiLoader to reload the API unnecessarily.
@@ -38,13 +39,15 @@ export default function App() {
   }
 
   return (
-    <TripProvider>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/results" element={<ResultsPage />} />
-        <Route path="/saved" element={<SavedTripsPage />} />
-      </Routes>
-    </TripProvider>
+    <AuthProvider>
+      <TripProvider>
+        <NavBar />
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/results" element={<ResultsPage />} />
+          <Route path="/saved" element={<SavedTripsPage />} />
+        </Routes>
+      </TripProvider>
+    </AuthProvider>
   )
 }
