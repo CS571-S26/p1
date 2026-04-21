@@ -39,7 +39,7 @@ export default function HomePage() {
         <Container>
           <Row className="justify-content-center text-center mb-5">
             <Col md={8}>
-              <h1 className="display-4 fw-bold mb-3">Road Trip Restaurant Finder</h1>
+              <h1 className="display-4 fw-bold mb-3">Welcome to RoadBites</h1>
               <p className="lead text-white-50">
                 Enter your route and we'll find the best restaurants at every stop along the way —
                 no more mid-trip browser searches.
