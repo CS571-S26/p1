@@ -143,6 +143,14 @@ export default function ResultsPage() {
     if (gen !== searchGenRef.current) return // superseded before final state update
     setStops(stopsData)
     setSearching(false)
+
+    if (mapRef.current) {
+      const bounds = new window.google.maps.LatLngBounds()
+      stopsData.forEach(s => {
+        if (s.restaurant) bounds.extend(s.restaurant.geometry.location)
+      })
+      if (!bounds.isEmpty()) mapRef.current.fitBounds(bounds)
+    }
   }
 
   function handleApplyFilters() {
