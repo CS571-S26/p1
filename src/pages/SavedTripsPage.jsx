@@ -30,7 +30,7 @@ export default function SavedTripsPage() {
       {!currentUser && (
         <Alert variant="warning" className="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-4">
           <span>
-            You're browsing as a guest — your saved trips will be lost when you leave this page.{' '}
+            You're browsing as a guest — your saved trips will be lost when you refresh or leave this site.{' '}
             <strong>Log in to keep them.</strong>
           </span>
           <Button variant="warning" size="sm" onClick={() => navigate('/login', { state: { from: '/saved' } })}>
