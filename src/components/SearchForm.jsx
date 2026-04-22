@@ -26,12 +26,25 @@ export default function SearchForm({ onSearch, initialValues }) {
       return
     }
 
+    const parsedStops = Number(numStops)
+    const parsedRadius = Number(radius)
+
+    if (!Number.isInteger(parsedStops) || parsedStops < 1 || parsedStops > 10) {
+      setError('Number of stops must be a whole number between 1 and 10.')
+      return
+    }
+
+    if (!Number.isFinite(parsedRadius) || parsedRadius < 1 || parsedRadius > 50) {
+      setError('Search radius must be between 1 and 50 miles.')
+      return
+    }
+
     setError('')
     onSearch({
       origin: originPlace.formatted_address || originPlace.name,
       destination: destPlace.formatted_address || destPlace.name,
-      numStops: Number(numStops),
-      radius: Number(radius),
+      numStops: parsedStops,
+      radius: parsedRadius,
       filters,
     })
   }
@@ -94,6 +107,7 @@ export default function SearchForm({ onSearch, initialValues }) {
               type="number"
               min={1}
               max={50}
+              step={1}
               value={radius}
               onChange={e => setRadius(e.target.value)}
             />

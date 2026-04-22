@@ -8,6 +8,7 @@ import SavedTripsPage from './pages/SavedTripsPage'
 import LoginPage from './pages/LoginPage'
 import { TripProvider } from './context/TripContext'
 import { AuthProvider } from './context/AuthContext'
+import ErrorBoundary from './components/ErrorBoundary'
 
 // Declared outside component to avoid re-creating the array on every render,
 // which would cause useJsApiLoader to reload the API unnecessarily.
@@ -40,16 +41,20 @@ export default function App() {
   }
 
   return (
-    <AuthProvider>
-      <TripProvider>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/results" element={<ResultsPage />} />
-          <Route path="/saved" element={<SavedTripsPage />} />
-          <Route path="/login" element={<LoginPage />} />
-        </Routes>
-      </TripProvider>
-    </AuthProvider>
+    <ErrorBoundary>
+      <AuthProvider>
+        <TripProvider>
+          <NavBar />
+          <ErrorBoundary key="routes">
+            <Routes>
+              <Route path="/" element={<ErrorBoundary key="home"><HomePage /></ErrorBoundary>} />
+              <Route path="/results" element={<ErrorBoundary key="results"><ResultsPage /></ErrorBoundary>} />
+              <Route path="/saved" element={<ErrorBoundary key="saved"><SavedTripsPage /></ErrorBoundary>} />
+              <Route path="/login" element={<ErrorBoundary key="login"><LoginPage /></ErrorBoundary>} />
+            </Routes>
+          </ErrorBoundary>
+        </TripProvider>
+      </AuthProvider>
+    </ErrorBoundary>
   )
 }

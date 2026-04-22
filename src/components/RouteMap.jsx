@@ -1,4 +1,5 @@
 import { GoogleMap, DirectionsRenderer, Marker } from '@react-google-maps/api'
+import ErrorBoundary from './ErrorBoundary'
 
 const MAP_CONTAINER_STYLE = { width: '100%', height: '480px', borderRadius: '8px' }
 const DEFAULT_CENTER = { lat: 39.5, lng: -98.35 } // geographic center of the US
@@ -15,6 +16,7 @@ export default function RouteMap({ directions, stops, onMarkerClick, onMapLoad, 
   }
 
   return (
+    <ErrorBoundary inline>
     <GoogleMap
       mapContainerStyle={MAP_CONTAINER_STYLE}
       zoom={5}
@@ -51,5 +53,6 @@ export default function RouteMap({ directions, stops, onMarkerClick, onMapLoad, 
         ) : null,
       )}
     </GoogleMap>
+    </ErrorBoundary>
   )
 }

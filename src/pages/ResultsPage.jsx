@@ -51,6 +51,7 @@ export default function ResultsPage() {
   // PlacesService requires an HTML element or map; we use a hidden div.
   const attrRef = useRef(null)
   const mapRef = useRef(null)
+  const searchGenRef = useRef(0) // incremented on each search; stale searches drop their results
 
   const onMapLoad = useCallback(() => {}, [])
 
@@ -95,6 +96,7 @@ export default function ResultsPage() {
   }, [routePoints]) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function runRestaurantSearch(points, currentFilters) {
+    const gen = ++searchGenRef.current
     setSearching(true)
     setStops([])
 
@@ -104,6 +106,8 @@ export default function ResultsPage() {
     const stopsData = []
 
     for (const location of points) {
+      if (gen !== searchGenRef.current) return // a newer search started; abandon this one
+
       const request = {
         location,
         radius: radiusMeters,
@@ -118,6 +122,8 @@ export default function ResultsPage() {
           : {}),
       }
       let results = await nearbySearchAsync(service, request)
+
+      if (gen !== searchGenRef.current) return // superseded while waiting for API
 
       // Client-side price filter: the Places API price params are advisory,
       // so we enforce the selection ourselves. Restaurants with no price_level
@@ -134,6 +140,7 @@ export default function ResultsPage() {
       stopsData.push({ location, restaurant })
     }
 
+    if (gen !== searchGenRef.current) return // superseded before final state update
     setStops(stopsData)
     setSearching(false)
   }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Container, Card, Tab, Tabs, Form, Button, Alert } from 'react-bootstrap'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
@@ -10,51 +10,68 @@ export default function LoginPage() {
   const from = location.state?.from || '/'
 
   const [tab, setTab] = useState('login')
-
   const [loginUsername, setLoginUsername] = useState('')
-  const [loginPassword, setLoginPassword] = useState('')
   const [loginError, setLoginError] = useState('')
-
   const [signupUsername, setSignupUsername] = useState('')
-  const [signupPassword, setSignupPassword] = useState('')
-  const [signupConfirm, setSignupConfirm] = useState('')
   const [signupError, setSignupError] = useState('')
 
-  // Navigate away once currentUser is set (handles both already-logged-in and post-auth cases)
+  // Password fields use refs so the values never enter React state
+  // and are invisible to the React DevTools component inspector.
+  const loginPasswordRef = useRef(null)
+  const signupPasswordRef = useRef(null)
+  const signupConfirmRef = useRef(null)
+
   useEffect(() => {
     if (currentUser) navigate(from, { replace: true })
   }, [currentUser, from, navigate])
 
+  function clearPasswords() {
+    if (loginPasswordRef.current) loginPasswordRef.current.value = ''
+    if (signupPasswordRef.current) signupPasswordRef.current.value = ''
+    if (signupConfirmRef.current) signupConfirmRef.current.value = ''
+  }
+
   function resetForms() {
-    setLoginUsername(''); setLoginPassword(''); setLoginError('')
-    setSignupUsername(''); setSignupPassword(''); setSignupConfirm(''); setSignupError('')
+    setLoginUsername('')
+    setLoginError('')
+    setSignupUsername('')
+    setSignupError('')
+    clearPasswords()
   }
 
   function handleLogin(e) {
     e.preventDefault()
     setLoginError('')
     try {
-      login(loginUsername.trim(), loginPassword)
+      login(loginUsername.trim(), loginPasswordRef.current.value)
     } catch (err) {
       setLoginError(err.message)
+    } finally {
+      clearPasswords()
     }
   }
 
   function handleSignup(e) {
     e.preventDefault()
     setSignupError('')
-    if (signupPassword !== signupConfirm) {
+    const password = signupPasswordRef.current.value
+    const confirm = signupConfirmRef.current.value
+    if (password !== confirm) {
       setSignupError('Passwords do not match.')
+      clearPasswords()
       return
     }
-    if (signupPassword.length < 6) {
+    if (password.length < 6) {
       setSignupError('Password must be at least 6 characters.')
+      clearPasswords()
       return
     }
     try {
-      signup(signupUsername.trim(), signupPassword)
+      signup(signupUsername.trim(), password)
     } catch (err) {
       setSignupError(err.message)
+    } finally {
+      clearPasswords()
     }
   }
 
@@ -85,8 +102,7 @@ export default function LoginPage() {
                   <Form.Control
                     type="password"
                     placeholder="Password"
-                    value={loginPassword}
-                    onChange={e => setLoginPassword(e.target.value)}
+                    ref={loginPasswordRef}
                     required
                   />
                 </Form.Group>
@@ -121,8 +137,7 @@ export default function LoginPage() {
                   <Form.Control
                     type="password"
                     placeholder="At least 6 characters"
-                    value={signupPassword}
-                    onChange={e => setSignupPassword(e.target.value)}
+                    ref={signupPasswordRef}
                     required
                   />
                 </Form.Group>
@@ -131,8 +146,7 @@ export default function LoginPage() {
                   <Form.Control
                     type="password"
                     placeholder="Repeat password"
-                    value={signupConfirm}
-                    onChange={e => setSignupConfirm(e.target.value)}
+                    ref={signupConfirmRef}
                     required
                   />
                 </Form.Group>
