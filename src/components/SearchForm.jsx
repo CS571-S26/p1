@@ -55,7 +55,7 @@ export default function SearchForm({ onSearch, initialValues }) {
 
       <Row className="mb-3 g-3">
         <Col md={6}>
-          <Form.Group>
+          <Form.Group controlId="origin">
             <Form.Label className="fw-semibold">Starting Point</Form.Label>
             <Autocomplete onLoad={ac => (originAcRef.current = ac)}>
               <Form.Control
@@ -68,7 +68,7 @@ export default function SearchForm({ onSearch, initialValues }) {
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group>
+          <Form.Group controlId="destination">
             <Form.Label className="fw-semibold">Destination</Form.Label>
             <Autocomplete onLoad={ac => (destAcRef.current = ac)}>
               <Form.Control
@@ -84,9 +84,9 @@ export default function SearchForm({ onSearch, initialValues }) {
 
       <Row className="mb-3 g-3">
         <Col md={6}>
-          <Form.Group>
+          <Form.Group controlId="num-stops">
             <Form.Label className="fw-semibold">
-              Number of Stops: <span className="text-primary">{numStops}</span>
+              Number of Stops: <span className="fw-bold">{numStops}</span>
             </Form.Label>
             <Form.Range
               min={1}
@@ -94,14 +94,14 @@ export default function SearchForm({ onSearch, initialValues }) {
               value={numStops}
               onChange={e => setNumStops(Number(e.target.value))}
             />
-            <div className="d-flex justify-content-between">
+            <div className="d-flex justify-content-between" aria-hidden="true">
               <small className="text-muted">1</small>
               <small className="text-muted">10</small>
             </div>
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group>
+          <Form.Group controlId="radius">
             <Form.Label className="fw-semibold">Search Radius (miles)</Form.Label>
             <Form.Control
               type="number"
@@ -111,7 +111,7 @@ export default function SearchForm({ onSearch, initialValues }) {
               value={radius}
               onChange={e => setRadius(e.target.value)}
             />
-            <Form.Text className="text-muted">
+            <Form.Text>
               How far from your route to search for restaurants (1–50 mi).
             </Form.Text>
           </Form.Group>

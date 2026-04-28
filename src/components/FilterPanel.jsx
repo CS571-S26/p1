@@ -57,7 +57,7 @@ export default function FilterPanel({ filters, onChange, readOnly = false }) {
         )}
       </Card.Header>
       <Card.Body className="d-flex flex-column gap-3">
-        <Form.Group>
+        <Form.Group controlId="filter-cuisine">
           <Form.Label className="fw-semibold small text-uppercase text-muted mb-1">
             Cuisine
           </Form.Label>
@@ -73,15 +73,15 @@ export default function FilterPanel({ filters, onChange, readOnly = false }) {
           </Form.Select>
         </Form.Group>
 
-        <Form.Group>
-          <Form.Label className="fw-semibold small text-uppercase text-muted mb-1">
+        <div role="group" aria-label="Price range">
+          <p className="fw-semibold small text-uppercase text-muted mb-1" aria-hidden="true">
             Price Range
             {filters.priceRange.length === 0 && (
               <span className="text-muted fw-normal ms-1" style={{ textTransform: 'none' }}>
                 — Any
               </span>
             )}
-          </Form.Label>
+          </p>
           <div className="d-flex gap-2 flex-wrap">
             {PRICE_LEVELS.map(({ value, label }) => {
               const active = filters.priceRange.includes(value)
@@ -92,6 +92,7 @@ export default function FilterPanel({ filters, onChange, readOnly = false }) {
                   size="sm"
                   onClick={() => togglePrice(value)}
                   disabled={readOnly}
+                  aria-pressed={active}
                   style={{ minWidth: 44 }}
                 >
                   {label}
@@ -99,7 +100,7 @@ export default function FilterPanel({ filters, onChange, readOnly = false }) {
               )
             })}
           </div>
-        </Form.Group>
+        </div>
 
         <Form.Check
           type="switch"

@@ -8,7 +8,7 @@ export default function RouteStopsSidebar({ stops, onStopClick }) {
 
   return (
     <div className="mb-3">
-      <h6 className="fw-semibold text-uppercase text-muted small mb-2">Stops Along Route</h6>
+      <p className="fw-semibold text-uppercase text-muted small mb-2">Stops Along Route</p>
       <ListGroup variant="flush" className="border rounded">
         {stops.map((stop, i) => {
           const r = stop.restaurant

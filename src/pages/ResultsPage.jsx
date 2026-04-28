@@ -202,11 +202,11 @@ export default function ResultsPage() {
         {/* Header row */}
         <div className="d-flex flex-wrap justify-content-between align-items-start gap-2 mb-4">
           <div>
-            <h4 className="mb-0 fw-bold">
+            <h1 className="h4 mb-0 fw-bold">
               {searchParams.origin}
               <span className="text-muted fw-normal"> → </span>
               {searchParams.destination}
-            </h4>
+            </h1>
             <small className="text-muted">
               {numStops} stop{numStops !== 1 ? 's' : ''} &middot; {radius} mi radius
             </small>
@@ -288,9 +288,9 @@ export default function ResultsPage() {
         {/* Stop cards */}
         {!loading && !searching && !error && stops.some(s => s.restaurant) && (
           <>
-            <h5 className="mb-3 fw-semibold">
+            <h2 className="h5 mb-3 fw-semibold">
               Restaurant Stops ({stops.filter(s => s.restaurant).length}/{stops.length} found)
-            </h5>
+            </h2>
             <Row className="g-3">
               {stops.map((stop, i) => (
                 <Col sm={6} lg={4} key={i}>

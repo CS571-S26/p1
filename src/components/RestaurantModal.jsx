@@ -142,7 +142,7 @@ export default function RestaurantModal({ restaurant, show, onHide }) {
                       {details.opening_hours.weekday_text?.map((line, i) => (
                         <ListGroup.Item
                           key={i}
-                          className={`px-0 py-1 ${i === todayIdx ? 'fw-bold text-primary' : ''}`}
+                          className={`px-0 py-1 ${i === todayIdx ? 'fw-bold' : 'text-muted'}`}
                         >
                           {line}
                         </ListGroup.Item>
@@ -158,7 +158,7 @@ export default function RestaurantModal({ restaurant, show, onHide }) {
             {/* Reviews */}
             {details.reviews?.length > 0 && (
               <>
-                <h6 className="border-top pt-3">Recent Reviews</h6>
+                <h5 className="border-top pt-3">Recent Reviews</h5>
                 {details.reviews.slice(0, 3).map((review, i) => (
                   <div key={i} className="border rounded p-3 mb-2 bg-light">
                     <div className="d-flex justify-content-between align-items-center mb-1">

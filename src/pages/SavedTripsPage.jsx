@@ -40,7 +40,7 @@ export default function SavedTripsPage() {
       )}
 
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="fw-bold mb-0">My Trips</h2>
+        <h1 className="h2 fw-bold mb-0">My Trips</h1>
         <Button variant="primary" onClick={() => navigate('/')}>Plan a New Trip</Button>
       </div>
 

@@ -79,14 +79,14 @@ export default function LoginPage() {
     <Container className="d-flex justify-content-center align-items-start py-5">
       <Card style={{ width: '100%', maxWidth: 440 }} className="shadow-sm">
         <Card.Header className="bg-dark text-white text-center py-3">
-          <h4 className="mb-0 fw-bold">Welcome to RoadBites</h4>
+          <h1 className="h4 mb-0 fw-bold">Welcome to RoadBites</h1>
         </Card.Header>
         <Card.Body className="p-4">
           <Tabs activeKey={tab} onSelect={k => { setTab(k); resetForms() }} className="mb-4">
             <Tab eventKey="login" title="Log In">
               {loginError && <Alert variant="danger" className="py-2">{loginError}</Alert>}
               <Form onSubmit={handleLogin}>
-                <Form.Group className="mb-3">
+                <Form.Group controlId="login-username" className="mb-3">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     type="text"
@@ -97,7 +97,7 @@ export default function LoginPage() {
                     autoFocus
                   />
                 </Form.Group>
-                <Form.Group className="mb-4">
+                <Form.Group controlId="login-password" className="mb-4">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
@@ -121,7 +121,7 @@ export default function LoginPage() {
             <Tab eventKey="signup" title="Sign Up">
               {signupError && <Alert variant="danger" className="py-2">{signupError}</Alert>}
               <Form onSubmit={handleSignup}>
-                <Form.Group className="mb-3">
+                <Form.Group controlId="signup-username" className="mb-3">
                   <Form.Label>Username</Form.Label>
                   <Form.Control
                     type="text"
@@ -132,7 +132,7 @@ export default function LoginPage() {
                     autoFocus
                   />
                 </Form.Group>
-                <Form.Group className="mb-3">
+                <Form.Group controlId="signup-password" className="mb-3">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
                     type="password"
@@ -141,7 +141,7 @@ export default function LoginPage() {
                     required
                   />
                 </Form.Group>
-                <Form.Group className="mb-4">
+                <Form.Group controlId="signup-confirm" className="mb-4">
                   <Form.Label>Confirm Password</Form.Label>
                   <Form.Control
                     type="password"

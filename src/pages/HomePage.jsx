@@ -39,8 +39,8 @@ export default function HomePage() {
         <Container>
           <Row className="justify-content-center text-center mb-5">
             <Col md={8}>
-              <h1 className="display-4 fw-bold mb-3">Welcome to RoadBites</h1>
-              <p className="lead text-white-50">
+              <h1 className="display-4 fw-bold mb-3">Welcome to <span>RoadBites</span></h1>
+              <p className="lead" style={{ color: 'rgba(255,255,255,0.85)' }}>
                 Enter your route and we'll find the best restaurants at every stop along the way —
                 no more mid-trip browser searches.
               </p>
@@ -64,8 +64,8 @@ export default function HomePage() {
           {FEATURES.map(f => (
             <Col key={f.title} sm={6} lg={3}>
               <div className="text-center p-3 h-100">
-                <div className="fs-1 mb-2">{f.icon}</div>
-                <h5 className="fw-semibold">{f.title}</h5>
+                <div className="fs-1 mb-2" aria-hidden="true">{f.icon}</div>
+                <h3 className="h5 fw-semibold">{f.title}</h3>
                 <p className="text-muted small">{f.desc}</p>
               </div>
             </Col>

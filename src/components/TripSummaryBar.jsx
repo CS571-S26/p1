@@ -30,9 +30,9 @@ export default function TripSummaryBar({ origin, destination, directions, stops,
     >
       <div>
         <span className="fw-semibold">{origin}</span>
-        <span className="text-white-50 mx-2">→</span>
+        <span className="mx-2" style={{ color: 'rgba(255,255,255,0.85)' }}>→</span>
         <span className="fw-semibold">{destination}</span>
-        <div className="text-white-50 small mt-1">
+        <div className="small mt-1" style={{ color: 'rgba(255,255,255,0.85)' }}>
           {[duration && `~${duration}`, distance, `${found} of ${stops.length} stops found`]
             .filter(Boolean)
             .join(' · ')}
