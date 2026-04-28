@@ -165,7 +165,7 @@ export default function ResultsPage() {
       destination: searchParams.destination,
       numStops: searchParams.numStops,
       radius: searchParams.radius,
-      filters: searchParams.filters,
+      filters,
       stops: stops.map(s => ({
         name: s.restaurant?.name ?? null,
         address: s.restaurant?.vicinity ?? null,
