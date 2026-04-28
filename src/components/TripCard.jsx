@@ -8,7 +8,7 @@ export default function TripCard({ trip, onRemove, onView }) {
         <div className="fw-semibold text-truncate" title={`${trip.origin} → ${trip.destination}`}>
           {trip.origin}
         </div>
-        <div className="text-white-50 small">
+        <div className="text-white small">
           <span className="me-1">→</span>{trip.destination}
         </div>
       </Card.Header>
