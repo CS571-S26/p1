@@ -333,7 +333,7 @@ export default function ResultsPage() {
         onHide={() => setShowModal(false)}
       />
 
-      <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 9999 }}>
+      <ToastContainer position="bottom-end" className="p-3" style={{ zIndex: 9999, position: 'fixed' }}>
         <Toast
           show={!!toast}
           onClose={() => setToast('')}
