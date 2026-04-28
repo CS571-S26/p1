@@ -1,14 +1,19 @@
-import { Badge, ListGroup } from 'react-bootstrap'
+import { Badge, ListGroup, Button } from 'react-bootstrap'
 import StarRating from './StarRating'
 
 const PRICE_LABELS = { 1: '$', 2: '$$', 3: '$$$', 4: '$$$$' }
 
-export default function RouteStopsSidebar({ stops, onStopClick }) {
+export default function RouteStopsSidebar({ stops, onStopClick, onResetView }) {
   if (!stops.length) return null
 
   return (
     <div className="mb-3">
-      <p className="fw-semibold text-uppercase text-muted small mb-2">Stops Along Route</p>
+      <div className="d-flex justify-content-between align-items-center mb-2">
+        <p className="fw-semibold text-uppercase text-muted small mb-0">Stops Along Route</p>
+        <Button variant="link" size="sm" className="p-0 text-muted small" onClick={onResetView}>
+          View full route
+        </Button>
+      </div>
       <ListGroup variant="flush" className="border rounded">
         {stops.map((stop, i) => {
           const r = stop.restaurant

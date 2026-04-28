@@ -188,6 +188,14 @@ export default function ResultsPage() {
     }
   }
 
+  function handleResetView() {
+    if (!mapRef.current) return
+    const bounds = directions?.routes[0]?.bounds
+    if (bounds) {
+      mapRef.current.fitBounds(bounds)
+    }
+  }
+
   if (!searchParams) return null
 
   const { numStops, radius } = searchParams
@@ -239,7 +247,7 @@ export default function ResultsPage() {
             />
           </Col>
           <Col lg={4}>
-            <RouteStopsSidebar stops={stops} onStopClick={handlePanToStop} />
+            <RouteStopsSidebar stops={stops} onStopClick={handlePanToStop} onResetView={handleResetView} />
             <FilterPanel filters={filters} onChange={setFilters} />
             <Button
               variant="primary"
